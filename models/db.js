@@ -1,10 +1,12 @@
 const Pool = require('pg').Pool
+const keys = require('../config/keys');
+
 const pool = new Pool({
-    user:'irenez',
-    host:'localhost',
-    database:'irenez',
-    password:'8ftfdc57R!',
-    port:5432
+    user: keys.user,
+    host: keys.host,
+    database: keys.database,
+    password: keys.password,
+    port: keys.port
 });
 
 const getRooms = () => {
@@ -43,8 +45,9 @@ const deleteRoom = (id) => {
     })
   }
 
-module.exports = {
-  getRooms,
-  createRoom,
-  deleteRoom
-}
+// module.exports = {
+//   getRooms,
+//   createRoom,
+//   deleteRoom
+// }
+module.exports = pool;

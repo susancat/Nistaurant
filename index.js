@@ -6,7 +6,7 @@ const PORT = 3001
 
 const roomRoutes = require('./router/rooms');
 const hostRoutes = require('./router/hosts');
-const commentRoutes = require('./router/comments');
+// const commentRoutes = require('./router/comments');
 
 app.use(express.json())
 //allow express accept incoming requests with JSON payloads
@@ -28,8 +28,8 @@ app.use(
 
 app.use("/rooms", roomRoutes);
 app.use("/hosts", hostRoutes);
-app.use("/rooms/:id/comments", commentRoutes);
+// app.use("/rooms/:id/comments", commentRoutes);
 
-app.listen(PORT, () => {
+app.listen(process.env.PORT || PORT, () => {
     console.log('postgre app runs!')
 })
