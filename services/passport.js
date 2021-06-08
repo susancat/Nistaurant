@@ -1,42 +1,37 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
-const pool = require('../models/db');
+const { getUser, createUser, deleteUser } = require('../models/user');
 const keys = require('../config/keys');
 
-const User = mongoose.model('users');
-
 passport.serializeUser((user,done) => {
-    done(null, user.id);
+    done(null, user.googleid);
 });
 
 passport.deserializeUser((id, done) => {
-    User.findById(id)
-    .then(user =>{
-        done(null, user);
+    getUser(id).then(user =>{
+        done(null, user[0]);
     });
 });
 
 passport.use(
     new GoogleStrategy({
         clientID: keys.googleClientID,
-        clientSecret: keys.googleClientSecret,
+        clientSecret: keys.clientSecret,
         callbackURL: '/auth/google/callback',
         proxy: true
     }, 
     async (accessToken, refreshToken, profile, done) => {
-        const existingUser = await pool.query(
-            "SELECT FROM users WHERE googleid = $1", [profile.id]);
-        
-        if(existingUser) {
+        const existingUser = await getUser(profile.id);
+        if (existingUser) {
             done(null, existingUser);
         } else {
-            //new model instance
             const googleid = profile.id
             const name = profile.displayName;
-            const user = await pool.query(
-                "INSERT INTO users (googleid, name) VALUES($1,$2) RETURNING *", [googleid,name]);
-            done(null, user);
+            createUser(googleid, name);
+            done(null, result);
         }
-    }
+
+        }
+    
     )
-);
+)

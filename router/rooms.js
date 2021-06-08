@@ -26,7 +26,7 @@ router.post('/', async(req,res) => {
     const { name,description,price,tourists,bedrooms,bathrooms,location,address,hostid,smoking,pets,wifi,entirehome, dryer,washer} = req.body;
     const newRoom = await Room.query(
       "INSERT INTO rooms (name,description,price,tourists,bedrooms,bathrooms,location,address,hostid,smoking,pets,wifi,entirehome, dryer,washer) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) RETURNING *",[name,description,price,tourists,bedrooms,bathrooms,location,address,hostid,smoking,pets,wifi,entirehome, dryer,washer]);
-    res.json(newRoom.roms[0])
+    res.json(newRoom.rows[0])
   } catch (err) {
     console.error(err.message)
   }

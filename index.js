@@ -1,11 +1,15 @@
 const express = require('express')
 const cookieSession = require('cookie-session');
+const keys = require('./config/keys');
+const passport = require('passport');
 
 const app = express()
 const PORT = 3001
 
+require('./services/passport');
+
 const roomRoutes = require('./router/rooms');
-const hostRoutes = require('./router/hosts');
+const authRoutes = require('./router/auth');
 // const commentRoutes = require('./router/comments');
 
 app.use(express.json())
@@ -22,12 +26,16 @@ app.use(function (req, res, next) {
 app.use(
     cookieSession({
         maxAge: 30 * 24 * 60 * 60 * 1000,
-        keys: "this is a secret cookie key"
+        keys: keys.cookiekey
     })
 );
 
+//tell passport to use cookie for authentication
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use("/rooms", roomRoutes);
-app.use("/hosts", hostRoutes);
+app.use("/", authRoutes);
 // app.use("/rooms/:id/comments", commentRoutes);
 
 app.listen(process.env.PORT || PORT, () => {
