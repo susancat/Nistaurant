@@ -16,8 +16,9 @@ app.use(express.json())
 //allow express accept incoming requests with JSON payloads
 
 //use cors would also be ok
+//3000 port is for react app, this enables the data communication between them
 app.use(function (req, res, next) {
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000'); //3000 port is for react app, this enables the data communication between them
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000'); 
     res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Access-Control-Allow-Headers');
     next();
