@@ -79,4 +79,15 @@ router.get('/:id/comments',async(req,res) => {
       console.error(err.message)
   }
 })
+
+router.get('/:id/images',async(req,res) => {
+  try {
+      const { id } = req.params;
+      console.log(req.params.id)
+      const allImages = await Room.query("SELECT * FROM images WHERE roomid = $1",[id]);
+      res.json(allImages.rows);
+  } catch (err) {
+      console.error(err.message)
+  }
+})
 module.exports = router;

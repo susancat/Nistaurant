@@ -9,6 +9,7 @@ const PORT = 3001
 require('./services/passport');
 
 const roomRoutes = require('./router/rooms');
+const imageRoutes = require('./router/images');
 const authRoutes = require('./router/auth');
 // const commentRoutes = require('./router/comments');
 
@@ -35,8 +36,9 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use("/rooms", roomRoutes);
 app.use("/", authRoutes);
+app.use("/rooms", roomRoutes);
+app.use("/images", imageRoutes);
 // app.use("/rooms/:id/comments", commentRoutes);
 
 app.listen(process.env.PORT || PORT, () => {
